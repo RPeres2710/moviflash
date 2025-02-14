@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Moviflash Cadastro</title>
+    <!-- Incluindo o Bootstrap -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-KyZXEJzY6hL39D2fW17B5txHe5c6fr+jrA04x9xhqVx07Z5mxyGGgGg2NEs1Y2fj" crossorigin="anonymous">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet">
+    
+    <style>
+        body {
+            background-color: #f8f9fa;
+        }
+
+        .container {
+            margin-top: 50px;
+        }
+
+        .form-control {
+            margin-bottom: 15px;
+        }
+
+        .btn {
+            width: auto;
+            padding: 12px 20px;
+            font-size: 1.1rem;
+            border-radius: 25px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 8px rgba(0, 0, 0, 0.15);
+        }
+
+        .card {
+            margin-top: 30px;
+        }
+
+        .table {
+            margin-top: 30px;
+        }
+
+        .table th, .table td {
+            text-align: center;
+        }
+
+        .badge {
+            padding: 0.5em;
+            font-size: 0.9em;
+        }
+
+        h1 {
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            margin-bottom: 30px;
+            background-color: #007bff;
+            color: white;
+            padding: 15px;
+            border-radius: 5px;
+            text-align: center;
+        }
+
+        .form-label {
+            font-weight: bold;
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .form-group label {
+            margin-bottom: 8px;
+        }
+
+        .btn-primary {
+            background-color: #28a745;
+            border-color: #28a745;
+        }
+
+        .btn-primary:hover {
+            background-color: #218838;
+            border-color: #1e7e34;
+        }
+
+        .btn-danger {
+            background-color: #dc3545;
+            border-color: #dc3545;
+        }
+
+        .btn-danger:hover {
+            background-color: #c82333;
+            border-color: #bd2130;
+        }
+
+        .btn-success {
+            background-color: #ffc107;
+            border-color: #ffc107;
+        }
+
+        .btn-success:hover {
+            background-color: #e0a800;
+            border-color: #d39e00;
+        }
+
+        .form-check-input {
+            margin-top: 5px;
+        }
+
+        .action-btn {
+            width: 45px;
+            height: 45px;
+            display: inline-flex;
+            justify-content: center;
+            align-items: center;
+            border-radius: 50%;
+            padding: 10px;
+            font-size: 1.5rem;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        .btn-send {
+            background-color: #28a745;
+            color: white;
+        }
+
+        .btn-send:hover {
+            background-color: #218838;
+        }
+
+        .btn-delete {
+            background-color: #dc3545;
+            color: white;
+        }
+
+        .btn-delete:hover {
+            background-color: #c82333;
+        }
+
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h1 class="text-center mb-4">Cadastro Moviflash</h1>
+    
+    <!-- Formulário de Cadastro -->
+    <div class="card">
+        <div class="card-body">
+            <form method="POST" action="/">
+                {{ form.hidden_tag() }}
+                <div class="form-group">
+                    <label for="nome" class="form-label">Nome</label>
+                    {{ form.nome(class="form-control") }}
+                </div>
+                <div class="form-group">
+                    <label for="localidade" class="form-label">Localidade</label>
+                    {{ form.localidade(class="form-control") }}
+                </div>
+                <div class="form-group">
+                    <label for="data" class="form-label">Data</label>
+                    {{ form.data(class="form-control") }}
+                </div>
+                <div class="form-group">
+                    <label for="link" class="form-label">Link do Moviflash</label>
+                    {{ form.link(class="form-control") }}
+                </div>
+                <div class="form-group">
+                    <label for="destinatarios" class="form-label">Destinatários (separados por vírgula)</label>
+                    {{ form.destinatarios(class="form-control") }}
+                </div>
+                <div class="form-check">
+                    {{ form.enviado() }}
+                    <label class="form-check-label" for="enviado">Enviado</label>
+                </div>
+                <button type="submit" class="btn btn-primary mt-3">Cadastrar</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Exibindo os Moviflash cadastrados -->
+    <h2 class="text-center mt-4">Moviflash Cadastrados</h2>
+    <table class="table table-bordered table-striped">
+        <thead class="table-dark">
+            <tr>
+                <th>Nome</th>
+                <th>Localidade</th>
+                <th>Data</th>
+                <th>Link</th>
+                <th>Destinatários</th>
+                <th>Enviado</th>
+                <th>Ações</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for moviflash in moviflash_list %}
+                <tr>
+                    <td>{{ moviflash.nome }}</td>
+                    <td>{{ moviflash.localidade }}</td>
+                    <td>{{ moviflash.data }}</td>
+                    <td><a href="{{ moviflash.link }}" target="_blank">{{ moviflash.link }}</a></td>
+                    <td>{{ moviflash.destinatarios }}</td>
+                    <td>
+                        {% if moviflash.enviado %}
+                            <span class="badge bg-success">Enviado</span>
+                        {% else %}
+                            <span class="badge bg-warning">Não enviado</span>
+                        {% endif %}
+                    </td>
+                    <td>
+                        {% if not moviflash.enviado %}
+                            <a href="{{ url_for('enviar_email', moviflash_id=loop.index0) }}" class="btn btn-send action-btn"><i class="fas fa-share"></i></a>
+                        {% endif %}
+                        <form action="{{ url_for('excluir', moviflash_id=loop.index0) }}" method="post" style="display:inline;">
+                            <button type="submit" class="btn btn-delete action-btn"><i class="fas fa-trash-alt"></i></button>
+                        </form>
+                    </td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+
+<!-- Incluindo o Bootstrap JS -->
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js" integrity="sha384-oBqDVmMz4fnFO9gyb5z6B5zPp2sCCaBvFqkDDMGF4lV9D3u2v2K5x3mH6yxgf9Jd" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.min.js" integrity="sha384-pzjw8f+ua7Kw1TIq0Gizp5+7xCv6T2hPHvQXHdxU5ITcHVF7T5d2WRy93b4bwBRy" crossorigin="anonymous"></script>
+</body>
+</html>
+
+
+
+
+
+
